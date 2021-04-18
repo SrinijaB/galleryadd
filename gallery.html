@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<style>
+  body {
+    font-family: Helvetica, sans-serif;
+    background-color: black !important;
+    font-size: 1rem;
+    
+  }
+
+  .header {
+    color: black;
+    text-align: center;
+    font-weight: 900;
+    font-size: 4em;
+
+  }
+
+  .header .letter {
+    margin-top: 30px;
+    font-family: Helvetica;
+    color: red;
+    display: inline-block;
+    line-height: 1em;
+  }
+
+
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+
+  .modal-content {
+    position: relative;
+    background-color: black !important;
+    margin: auto;
+    padding: 0;
+    width: 30%;
+
+  }
+
+
+  .close {
+    color: white !important;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 80px !important;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: white !important;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .mySlides {
+    display: none;
+  }
+
+  .cursor {
+    cursor: pointer;
+  }
+
+
+  .prev,
+  .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+
+  .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+  }
+
+
+  .prev:hover,
+  .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+
+
+  .caption-container {
+    text-align: center;
+    background-color: black;
+    padding: 2px 16px;
+    color: white;
+  }
+
+  .demo {
+    opacity: 0.6;
+  }
+
+  .active,
+  .demo:hover {
+    opacity: 1;
+  }
+
+  img.hover-shadow {
+    transition: 0.3s;
+  }
+
+  .hover-shadow:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .cont {
+    position: relative;
+    column-count: 4;
+    margin: 20px;
+
+  }
+.cont1{
+position:absolute;
+top: 100px;
+
+}
+  .image {
+    display: inline-block;
+    margin: 20px;
+
+  }
+
+  .image img {
+    transition: 1s;
+    margin-top: 8px;
+    vertical-align: middle;
+    width: 100%;
+    box-shadow: 0 0 20px red;
+  }
+
+  .image img:hover {
+    transform: scale(1.05);
+  }
+
+  .modal img {
+    transition: 1s;
+    margin-top: 8px;
+    vertical-align: middle;
+    width: 100%;
+    box-shadow: 0 0 20px red;
+  }
+
+  .modal img:hover {
+    transform: scale(1.05);
+  }
+
+  header {
+    margin-top: 30px;
+    padding: 10px 50px;
+    background: rgb(24, 24, 24);
+    color: aliceblue;
+  }
+
+
+  @media screen and (max-width: 1200px) {
+    .cont {
+      column-count: 3
+    }
+  }
+
+  @media screen and (max-width: 740px) {
+    .cont {
+      column-count: 2
+    }
+
+    .modal-content {
+      position: relative;
+      background-color: black !important;
+      margin: auto;
+      padding: 0;
+      width: 400px;
+
+    }
+  }
+
+  @media screen and (max-width: 375px) {
+    .cont {
+      column-count: 1
+    }
+  }
+</style>
+<script>
+  function fun() {
+    var textWrapper = document.querySelector('.header');
+    textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+    anime.timeline({ loop: true })
+      .add({
+        targets: '.header .letter',
+        scale: [4, 1],
+        opacity: [0, 1],
+        translateZ: 0,
+        easing: "easeOutExpo",
+        duration: 950,
+        delay: (el, i) => 70 * i
+      }).add({
+        targets: '.header',
+        opacity: 0,
+        duration: 10000000000000000000000000000000000000,
+        easing: "easeOutExpo",
+        delay: 1000
+      });
+  }
+
+  function openModal() {
+    document.getElementById("myModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+  }
+
+  var slideIndex = 1;
+  showSlides(slideIndex);
+
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  }
+
+  function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+    var dots = document.getElementsByClassName("demo");
+    var captionText = document.getElementById("caption");
+    if (n > slides.length) { slideIndex = 1 }
+    if (n < 1) { slideIndex = slides.length }
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+    captionText.innerHTML = dots[slideIndex - 1].alt;
+  }
+</script>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title> Gallery </title>
+</head>
+
+
+
+<body onload="fun()">
+  <nav class="navbar navbar-expand-md nav-inverse navbar-fixed-top ">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="glyphicon glyphicon-chevron-down"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><img src="tedexlogo.jpeg" class="logo"
+            style="height: 68px; width: 300px; margin-left: 15px;"> </a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="menu-toggle">2019</a>
+          </li>
+          <li class="active"><a href="index.html">Home</a></li>
+
+
+          <li><a href="events.html">Events</a></li>
+          <li><a href="contactus.html">About Us</a></li>
+          <li><a href="contactus.html">Contact Us</a></li>
+
+
+        </ul>
+      </div>
+  </nav>
+
+
+
+
+
+
+
+  <div class="cont1">
+    <div class="header">
+      <p>GALLERY</p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+    <div class="cont">
+      <div class="image">
+        <img src="https://i.pinimg.com/originals/42/73/b7/4273b7c22af24b9d4bade05c28cdc2ac.jpg"
+          onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
+      </div>
+
+      <div class="image">
+        <img
+          src="https://images.fineartamerica.com/images-medium-large-5/sunflower-abstract-by-nature-square-lee-craig.jpg"
+          onclick="openModal();currentSlide(2)" class="hover-shadow cursor">
+      </div>
+
+      <div class="image">
+        <img src="https://i.natgeofe.com/n/2a832501-483e-422f-985c-0e93757b7d84/6.jpg?w=636&h=477"
+          onclick="openModal();currentSlide(3)" class="hover-shadow cursor">
+      </div>
+
+      <div class="image">
+        <img src="https://i.pinimg.com/originals/7f/c7/3c/7fc73c4d6fb56a40a735553aa8520197.jpg"
+          onclick="openModal();currentSlide(4)" class="hover-shadow cursor">
+      </div>
+
+      <div class="image">
+        <img src="https://wallpapercave.com/wp/wp4937431.jpg" onclick="openModal();currentSlide(5)"
+          class="hover-shadow cursor">
+      </div>
+      <div class="image">
+        <img src="https://i.pinimg.com/originals/42/73/b7/4273b7c22af24b9d4bade05c28cdc2ac.jpg"
+          onclick="openModal();currentSlide(6)" class="hover-shadow cursor">
+      </div>
+      <div class="image">
+        <img src="https://wallpapercave.com/wp/wp4937431.jpg" onclick="openModal();currentSlide(7)"
+          class="hover-shadow cursor">
+      </div>
+      <div class="image">
+        <img src="https://i.natgeofe.com/n/2a832501-483e-422f-985c-0e93757b7d84/6.jpg?w=636&h=477"
+          onclick="openModal();currentSlide(8)" class="hover-shadow cursor">
+      </div>
+
+    </div>
+  </div>
+
+  <div id="myModal" class="modal">
+    <span class="close cursor" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+
+      <div class="mySlides">
+
+        <img src="https://i.pinimg.com/originals/42/73/b7/4273b7c22af24b9d4bade05c28cdc2ac.jpg" style="width:100%">
+      </div>
+
+      <div class="mySlides">
+
+        <img
+          src="https://images.fineartamerica.com/images-medium-large-5/sunflower-abstract-by-nature-square-lee-craig.jpg"
+          style="width:100%">
+      </div>
+
+      <div class="mySlides">
+
+        <img src="https://i.natgeofe.com/n/2a832501-483e-422f-985c-0e93757b7d84/6.jpg?w=636&h=477" style="width:100%">
+      </div>
+
+      <div class="mySlides">
+
+        <img src="https://i.pinimg.com/originals/7f/c7/3c/7fc73c4d6fb56a40a735553aa8520197.jpg" style="width:100%">
+      </div>
+
+      <div class="mySlides">
+
+        <img src="https://wallpapercave.com/wp/wp4937431.jpg" style="width:100%">
+      </div>
+
+      <div class="mySlides">
+
+        <img src="https://i.pinimg.com/originals/42/73/b7/4273b7c22af24b9d4bade05c28cdc2ac.jpg" style="width:100%">
+      </div>
+
+      <div class="mySlides">
+
+        <img src="https://wallpapercave.com/wp/wp4937431.jpg" style="width:100%">
+      </div>
+
+      <div class="mySlides">
+
+        <img src="https://i.natgeofe.com/n/2a832501-483e-422f-985c-0e93757b7d84/6.jpg?w=636&h=477" style="width:100%">
+      </div>
+
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+      <div class="caption-container">
+        <p id="caption"></p>
+      </div>
+
+
+
+    </div>
+  </div>
+
+</body>
+
+</html>
